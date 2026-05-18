@@ -5,7 +5,7 @@ using TravelApp.API.Services;
 namespace TravelApp.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/accommodations")]
     public class AccommodationController : ControllerBase
     {
         private readonly AccommodationService _service;
@@ -15,21 +15,21 @@ namespace TravelApp.API.Controllers
             _service = service;
         }
 
-        // GET /api/accommodation/nearby?lat=37.5796&lng=126.9770
-        [HttpGet("nearby")]
-        public IActionResult GetNearby(double lat, double lng, int top = 20)
+        // GET /api/accommodations/recommend?spotId=1
+        [HttpGet("recommend")]
+        public IActionResult GetRecommend([FromQuery] int spotId)
         {
-            if (lat == 0 || lng == 0)
-                return BadRequest(ApiResponse<object>.Fail("위도/경도를 입력해주세요."));
+            if (spotId <= 0)
+                return BadRequest(ApiResponse<object>.Fail("올바른 spotId를 입력해주세요."));
 
             try
             {
-                var result = _service.GetNearby(lat, lng, top);
-                return Ok(ApiResponse<List<AccommodationWithDistance>>.Ok(
-                    result,
-                    $"주변 숙소 {result.Count}개 조회 성공",
-                    result.Count
-                ));
+                var (success, message, data) = _service.GetRecommendBySpot(spotId);
+
+                if (!success)
+                    return NotFound(ApiResponse<object>.Fail(message));
+
+                return Ok(ApiResponse<List<AccommodationWithDistance>?>.Ok(data, message, data!.Count));
             }
             catch (Exception ex)
             {

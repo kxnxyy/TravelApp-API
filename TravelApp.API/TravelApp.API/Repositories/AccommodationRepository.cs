@@ -12,12 +12,37 @@ namespace TravelApp.API.Repositories
             _connStr = connectionString;
         }
 
-        // DB에서 숙소 전체 조회
+        // spotId로 관광지 좌표 조회
+        public SpotCoord? GetSpotCoord(int spotId)
+        {
+            string sql = @"
+                SELECT Latitude, Longitude
+                FROM TouristSpot
+                WHERE SpotId = @SpotId";
+
+            using var conn = new SqlConnection(_connStr);
+            conn.Open();
+            using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@SpotId", spotId);
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                return new SpotCoord
+                {
+                    Latitude = reader.GetDouble(0),
+                    Longitude = reader.GetDouble(1)
+                };
+            }
+            return null;
+        }
+
+        // 숙소 전체 조회 (평균 별점, 리뷰수 포함)
         public List<Accommodation> GetAll()
         {
             var list = new List<Accommodation>();
             string sql = @"
-                SELECT AccomId, Name, Address, AccomType, 
+                SELECT AccomId, Name, Address, AccomType,
                        Phone, ImageUrl, Latitude, Longitude, BookingUrl
                 FROM Accommodation
                 WHERE Latitude IS NOT NULL AND Longitude IS NOT NULL";
@@ -32,7 +57,7 @@ namespace TravelApp.API.Repositories
                 list.Add(new Accommodation
                 {
                     AccomId = reader.GetInt32(0),
-                    Name = reader.GetString(1),
+                    Name = reader.IsDBNull(1) ? "" : reader.GetString(1),
                     Address = reader.IsDBNull(2) ? "" : reader.GetString(2),
                     AccomType = reader.IsDBNull(3) ? "" : reader.GetString(3),
                     Phone = reader.IsDBNull(4) ? "" : reader.GetString(4),
@@ -43,6 +68,30 @@ namespace TravelApp.API.Repositories
                 });
             }
             return list;
+        }
+
+        // 특정 숙소 평균 별점 + 리뷰 수 조회
+        public (double avgRating, int reviewCount) GetRating(int accomId)
+        {
+            string sql = @"
+                SELECT COUNT(*), 
+                       ISNULL(AVG(CAST(Rating AS FLOAT)), 0)
+                FROM Review
+                WHERE TargetType = 'ACCOM' AND TargetId = @AccomId";
+
+            using var conn = new SqlConnection(_connStr);
+            conn.Open();
+            using var cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@AccomId", accomId);
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                int count = reader.GetInt32(0);
+                double avgRating = reader.GetDouble(1);
+                return (Math.Round(avgRating, 1), count);
+            }
+            return (0.0, 0);
         }
     }
 }

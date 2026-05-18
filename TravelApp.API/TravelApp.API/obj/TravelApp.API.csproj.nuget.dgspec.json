@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bit\\Desktop\\미니프로젝트\\TravelApp.API\\TravelApp.API\\TravelApp.API.csproj": {}
+    "C:\\Users\\bit\\Documents\\GitHub\\TravelApp-API\\TravelApp.API\\TravelApp.API\\TravelApp.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bit\\Desktop\\미니프로젝트\\TravelApp.API\\TravelApp.API\\TravelApp.API.csproj": {
+    "C:\\Users\\bit\\Documents\\GitHub\\TravelApp-API\\TravelApp.API\\TravelApp.API\\TravelApp.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bit\\Desktop\\미니프로젝트\\TravelApp.API\\TravelApp.API\\TravelApp.API.csproj",
+        "projectUniqueName": "C:\\Users\\bit\\Documents\\GitHub\\TravelApp-API\\TravelApp.API\\TravelApp.API\\TravelApp.API.csproj",
         "projectName": "TravelApp.API",
-        "projectPath": "C:\\Users\\bit\\Desktop\\미니프로젝트\\TravelApp.API\\TravelApp.API\\TravelApp.API.csproj",
+        "projectPath": "C:\\Users\\bit\\Documents\\GitHub\\TravelApp-API\\TravelApp.API\\TravelApp.API\\TravelApp.API.csproj",
         "packagesPath": "C:\\Users\\bit\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bit\\Desktop\\미니프로젝트\\TravelApp.API\\TravelApp.API\\obj\\",
+        "outputPath": "C:\\Users\\bit\\Documents\\GitHub\\TravelApp-API\\TravelApp.API\\TravelApp.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -81,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300-preview.0.26177.108/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
